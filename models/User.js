@@ -21,10 +21,10 @@ const userSchema = mongoose.Schema(
                 validator: (value) =>
                     validator.isStrongPassword(value, {
                         minLength: 6,
-                        minLowercase: 3,
-                        minNumbers: 1,
-                        minUppercase: 1,
-                        minSymbols: 1,
+                        // minLowercase: 3,
+                        // minNumbers: 1,
+                        // minUppercase: 1,
+                        // minSymbols: 1,
                     }),
                 message: "Password {VALUE} is not strong enough.",
             },
@@ -32,7 +32,7 @@ const userSchema = mongoose.Schema(
 
         confirmPassword: {
             type: String,
-            required: [true, "Please confirm your password"],
+            required: [false, "Please confirm your password"],
             validate: {
                 validator: function (value) {
                     return value === this.password;
@@ -43,8 +43,8 @@ const userSchema = mongoose.Schema(
 
         role: {
             type: String,
-            enum: ["Candidate", "Hiring-Manager", "Admin"],
-            default: "Candidate",
+            enum: ["Manufacturer", "Transporter", "admin"],
+            required: [true, "Please select your roule"]
         },
 
         firstName: {
@@ -57,7 +57,7 @@ const userSchema = mongoose.Schema(
 
         lastName: {
             type: String,
-            required: [true, "Please provide a last name"],
+            required: [false, "Please provide a last name"],
             trim: true,
             minLength: [3, "Name must be at least 3 characters."],
             maxLength: [100, "Name is too large"],
@@ -93,7 +93,6 @@ const userSchema = mongoose.Schema(
 
 userSchema.pre("save", function (next) {
     if (!this.isModified("password")) {
-        //  only run if password is modified, otherwise it will change every time we save the user!
         return next();
     }
     const password = this.password;
