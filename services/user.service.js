@@ -9,6 +9,6 @@ exports.findUserByEmail = async (email) => {
     return await User.findOne({ email });
 };
 
-exports.findUserByToken = async (token) => {
-    return await User.findOne({ confirmationToken: token });
+exports.findUsersByRole = async (role) => {
+    return await User.find(role);
 };

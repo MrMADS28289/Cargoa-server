@@ -17,17 +17,21 @@ const userSchema = mongoose.Schema(
         password: {
             type: String,
             required: [true, "Password is required"],
-            validate: {
-                validator: (value) =>
-                    validator.isStrongPassword(value, {
-                        minLength: 6,
-                        // minLowercase: 3,
-                        // minNumbers: 1,
-                        // minUppercase: 1,
-                        // minSymbols: 1,
-                    }),
-                message: "Password {VALUE} is not strong enough.",
-            },
+            minLength: [6, "password must be 6 carrectors"],
+            maxLength: 20
+
+            // its comment out for simplify
+            // validate: {
+            //     validator: (value) =>
+            //         validator.isStrongPassword(value, {
+            //             minLength: 6,
+            //             minLowercase: 3,
+            //             minNumbers: 1,
+            //             minUppercase: 1,
+            //             minSymbols: 1,
+            //         }),
+            //     message: "Password {VALUE} is not strong enough.",
+            // },
         },
 
         confirmPassword: {
@@ -61,6 +65,12 @@ const userSchema = mongoose.Schema(
             trim: true,
             minLength: [3, "Name must be at least 3 characters."],
             maxLength: [100, "Name is too large"],
+        },
+
+        address: {
+            type: String,
+            required: [true, "Please Provide your address"],
+            minLength: [2, "address must be 2 chacacters."]
         },
 
         contactNumber: {
